@@ -39,5 +39,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@umijs/fabric": "^2.5.2",
+    "eslint": "^7.1.0",
+    "eslint-plugin-no-loops": "^0.3.0",
+    "eslint-plugin-react": "^7.23.2"
   }
 }
