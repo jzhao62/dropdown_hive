@@ -1,8 +1,8 @@
 import type { ReactElement } from 'react';
-import {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './style.css';
-import { DropDownPanel } from './Option';
-import { CloseCircleOutlined, DownCircleOutlined } from '@ant-design/icons';
+import { DownCircleOutlined } from '@ant-design/icons';
+import List from 'rc-virtual-list';
 
 interface IProp {
     initialOptions: string[];
@@ -22,7 +22,7 @@ const defaultProps: IProp = {
     onChange: undefined,
 };
 
-const Select = ({ initialOptions, allowClear, children, mode, onChange }: IProp): ReactElement => {
+const DropDown = ({ initialOptions, allowClear, allowSelectAll, children, mode, onChange }: IProp): ReactElement => {
     const [selectedVals, setSelectedVals] = useState<string[]>([]);
     const [isDropDownVisible, setIsDropDownVisible] = useState(false);
 
@@ -35,14 +35,13 @@ const Select = ({ initialOptions, allowClear, children, mode, onChange }: IProp)
 
     const checkIfClickedOutside = (e: MouseEvent) => {
         console.warn(e);
-        // // @ts-ignore
-        // if (isDropDownVisible && ref.current && !ref.current.contains(e.target)) {
-        //     setIsDropDownVisible(false);
-        // }
+        // @ts-ignore
+        if (isDropDownVisible && ref.current && !ref.current.contains(e.target)) {
+            setIsDropDownVisible(false);
+        }
     };
 
-    const onClickOption = (e: MouseEvent): void => {
-        // @ts-ignore
+    const onClickOption = (e: any): void => {
         const x = e.target.value;
         const idx = selectedVals.indexOf(x);
 
@@ -62,6 +61,8 @@ const Select = ({ initialOptions, allowClear, children, mode, onChange }: IProp)
         if (mode === 'single') {
             if (idx === -1) {
                 setSelectedVals([x]);
+            } else {
+                setSelectedVals([]);
             }
         }
     };
@@ -84,18 +85,38 @@ const Select = ({ initialOptions, allowClear, children, mode, onChange }: IProp)
         <div className="select_container">
             <div className="input_container">
                 <input value={selectedVals} onClick={() => setIsDropDownVisible(!isDropDownVisible)} />
-                <div>
-                    {!isDropDownVisible && <DownCircleOutlined />}
-                    {allowClear && isDropDownVisible && selectedVals.length !== 0 && (
-                        <CloseCircleOutlined onClick={() => clearSelection()} />
-                    )}
-                </div>
+
+                {!isDropDownVisible && (
+                    <div style={{ left: '-20px' }}>
+                        <DownCircleOutlined />
+                    </div>
+                )}
             </div>
 
             {isDropDownVisible && (
                 // @ts-ignore
+
                 <div className="select_dropdown_panel" ref={ref}>
-                    <DropDownPanel options={initialOptions} selectedOptions={selectedVals} onClick={onClickOption} />
+                    {allowClear && isDropDownVisible && selectedVals.length !== 0 && (
+                        <a onClick={() => clearSelection()}>
+                            <div className="option_font">CLEAR</div>
+                        </a>
+                    )}
+
+                    {allowSelectAll && isDropDownVisible && (
+                        <a onClick={() => setSelectedVals([...initialOptions])}>
+                            <div className="option_font">SELECT ALL</div>
+                        </a>
+                    )}
+                    <List data={initialOptions} height={200} itemHeight={30} itemKey="id">
+                        {(value) => (
+                            <div className={`option_wrapper ${selectedVals.includes(value) ? `selected` : ''}`}>
+                                <button className="button_wrapper" onClick={(e) => onClickOption(e)} value={value}>
+                                    {value}
+                                </button>
+                            </div>
+                        )}
+                    </List>
                 </div>
             )}
 
@@ -104,6 +125,6 @@ const Select = ({ initialOptions, allowClear, children, mode, onChange }: IProp)
     );
 };
 
-Select.defaultProps = defaultProps;
+DropDown.defaultProps = defaultProps;
 
-export default Select;
+export default DropDown;
