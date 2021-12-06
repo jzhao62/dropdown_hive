@@ -1,0 +1,68 @@
+.select_container {
+    width: 300px;
+    height: 300px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 3px;
+}
+
+.input_container {
+    display: flex;
+    width: 200px;
+    padding-left: 35px;
+}
+.input_container :hover {
+    cursor: pointer;
+    transition: all 200ms ease-out;
+    /*box-shadow: 0 0 0 1px rgb(0 0 0 / 20%);*/
+}
+.input_container input {
+    width: 200px;
+}
+
+.input_container div {
+    position: relative;
+    left: -20px;
+    margin: auto;
+    pointer-events: none;
+}
+
+.select_dropdown_panel {
+    width: 200px;
+    height: 150px;
+    margin-left: 30px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
+}
+
+.option_wrapper {
+    width: inherit;
+    height: 30px;
+    background: white;
+}
+
+.option_wrapper :hover {
+    background: #ece8e8;
+}
+
+.selected {
+    background: #e6f7ff;
+}
+
+.selected ::after {
+    position: relative;
+    right: -150px;
+    content: '✓';
+}
+
+.button_wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 5px 10px 5px 10px;
+    text-align: left;
+    background: transparent;
+    border: transparent;
+}
