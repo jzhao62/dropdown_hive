@@ -1,7 +1,8 @@
 
 
 ## environment 
-node: 10.19.0
+- node: 10.19.0
+- npm 6.14.4
 
 ## run
 - npm install 
