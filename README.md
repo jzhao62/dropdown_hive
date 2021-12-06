@@ -5,6 +5,7 @@ node: 10.19.0
 
 ## run
 npm install 
+npm start
 
 
 ## demo 
